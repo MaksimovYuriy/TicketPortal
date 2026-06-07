@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_06_07_130221) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_07_183911) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,11 +26,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_130221) do
 
   create_table "agents", force: :cascade do |t|
     t.string "email"
-    t.string "encrypted_password"
+    t.string "password_digest"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_agents_on_email", unique: true
+  end
+
+  create_table "refresh_tokens", force: :cascade do |t|
+    t.bigint "agent_id", null: false
+    t.string "token_digest", null: false
+    t.datetime "expires_at", null: false
+    t.datetime "revoked_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_id"], name: "index_refresh_tokens_on_agent_id"
+    t.index ["expires_at"], name: "index_refresh_tokens_on_expires_at"
+    t.index ["token_digest"], name: "index_refresh_tokens_on_token_digest", unique: true
   end
 
   create_table "ticket_logs", force: :cascade do |t|
@@ -88,6 +100,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_130221) do
 
   add_foreign_key "agent_tickets_queues", "agents"
   add_foreign_key "agent_tickets_queues", "tickets_queues"
+  add_foreign_key "refresh_tokens", "agents"
   add_foreign_key "ticket_logs", "agents"
   add_foreign_key "ticket_logs", "tickets"
   add_foreign_key "tickets", "agents"
