@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class TicketLog < ApplicationRecord
   belongs_to :ticket
   belongs_to :agent
 
-  enum action: {
+  enum :action, {
     created: 0,
     assigned: 1,
     forward: 2,

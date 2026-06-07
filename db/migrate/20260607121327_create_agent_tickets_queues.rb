@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAgentTicketsQueues < ActiveRecord::Migration[7.1]
   def change
     create_table :agent_tickets_queues do |t|

@@ -50,9 +50,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_130221) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "agent_id"
-    t.bigint "tickets_queue_id", null: false
-    t.bigint "workflow_id", null: false
-    t.bigint "workflow_stage_id", null: false
+    t.bigint "tickets_queue_id"
+    t.bigint "workflow_id"
+    t.bigint "workflow_stage_id"
     t.index ["agent_id"], name: "index_tickets_on_agent_id", unique: true
     t.index ["tickets_queue_id"], name: "index_tickets_on_tickets_queue_id"
     t.index ["workflow_id"], name: "index_tickets_on_workflow_id"
@@ -83,6 +83,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_130221) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_workflows_on_name", unique: true
   end
 
   add_foreign_key "agent_tickets_queues", "agents"

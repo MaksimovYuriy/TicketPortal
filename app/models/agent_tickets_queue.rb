@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AgentTicketsQueue < ApplicationRecord
   belongs_to :agent
   belongs_to :tickets_queue
