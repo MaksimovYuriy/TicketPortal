@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_06_07_123557) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_07_130221) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_123557) do
     t.bigint "tickets_queue_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["agent_id", "tickets_queue_id"], name: "index_agent_tickets_queues_on_agent_id_and_tickets_queue_id", unique: true
     t.index ["agent_id"], name: "index_agent_tickets_queues_on_agent_id"
     t.index ["tickets_queue_id"], name: "index_agent_tickets_queues_on_tickets_queue_id"
   end
@@ -29,10 +30,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_123557) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_agents_on_email", unique: true
   end
 
   create_table "ticket_logs", force: :cascade do |t|
-    t.integer "action"
+    t.integer "action", null: false
     t.bigint "ticket_id", null: false
     t.bigint "agent_id", null: false
     t.datetime "created_at", null: false
@@ -44,7 +46,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_123557) do
   create_table "tickets", force: :cascade do |t|
     t.string "subject"
     t.text "body"
-    t.integer "status"
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "agent_id"
@@ -62,6 +64,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_123557) do
     t.integer "order_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["label"], name: "index_tickets_queues_on_label", unique: true
   end
 
   create_table "workflow_stages", force: :cascade do |t|
@@ -71,6 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_07_123557) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tickets_queue_id"], name: "index_workflow_stages_on_tickets_queue_id"
+    t.index ["workflow_id", "position"], name: "index_workflow_stages_on_workflow_id_and_position", unique: true
     t.index ["workflow_id"], name: "index_workflow_stages_on_workflow_id"
   end
 
